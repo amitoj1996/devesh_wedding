@@ -152,9 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Venue
         reveal('.venue-reveal', '#venue', { y: 50 });
 
-        // Wishes
-        reveal('.wish-reveal', '#wishes', { y: 40 });
-
         // Quote
         reveal('.quote-reveal', '.quote-reveal', { y: 30 });
 
@@ -173,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Safety: after 3 seconds, force everything visible in case any trigger didn't fire
         setTimeout(() => {
-            document.querySelectorAll('.fam-card, .ev-card, .cd-box, .gallery-img, .gallery-reveal, .fam-reveal, .ev-reveal, .cd-reveal, .venue-reveal, .quote-reveal, .wish-reveal').forEach(el => {
+            document.querySelectorAll('.fam-card, .ev-card, .cd-box, .gallery-img, .gallery-reveal, .fam-reveal, .ev-reveal, .cd-reveal, .venue-reveal, .quote-reveal').forEach(el => {
                 if (parseFloat(getComputedStyle(el).opacity) < 0.1) {
                     gsap.to(el, { opacity: 1, y: 0, x: 0, scale: 1, duration: 0.5 });
                 }
@@ -199,50 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         for (let i = 0; i < 5; i++) setTimeout(spawn, i * 500);
         setInterval(spawn, 1200);
-    }
-
-    // ─── WISHES (stored in localStorage) ───
-    const wishBtn = document.getElementById('wishBtn');
-    const wishesList = document.getElementById('wishesList');
-
-    function loadWishes() {
-        const wishes = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
-        if (!wishesList) return;
-        wishesList.innerHTML = '';
-        wishes.slice(-10).reverse().forEach(w => {
-            const div = document.createElement('div');
-            div.className = 'border border-gold-500/10 rounded-xl p-5 text-left bg-white/[0.02] transition-all duration-300';
-            div.innerHTML = `<p class="font-sans text-gold-500/60 text-xs tracking-wider mb-2 font-medium">${escapeHtml(w.name)}</p><p class="font-serif text-cream-200/60 text-base italic leading-relaxed">"${escapeHtml(w.msg)}"</p>`;
-            wishesList.appendChild(div);
-        });
-    }
-
-    function escapeHtml(str) {
-        const d = document.createElement('div');
-        d.textContent = str;
-        return d.innerHTML;
-    }
-
-    if (wishBtn) {
-        wishBtn.addEventListener('click', () => {
-            const name = document.getElementById('wishName').value.trim();
-            const msg = document.getElementById('wishMsg').value.trim();
-            if (!name || !msg) return;
-
-            const wishes = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
-            wishes.push({ name, msg, date: new Date().toISOString() });
-            localStorage.setItem('wedding_wishes', JSON.stringify(wishes));
-
-            document.getElementById('wishName').value = '';
-            document.getElementById('wishMsg').value = '';
-
-            // Animate button
-            wishBtn.textContent = 'Blessings Sent! ✦';
-            setTimeout(() => { wishBtn.innerHTML = '<span class="relative z-10">Send Blessings ✦</span>'; }, 2000);
-
-            loadWishes();
-        });
-        loadWishes();
     }
 
     // ─── MUSIC TOGGLE ───
