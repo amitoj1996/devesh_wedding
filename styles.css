@@ -1,0 +1,51 @@
+/* =============================================
+   WEDDING — Dark Luxury Theme
+   ============================================= */
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0d0a07; }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(201,168,76,0.5); }
+
+/* Selection */
+::selection { background: rgba(201,168,76,0.2); color: #fdf8f0; }
+
+/* ── Scroll line animation ── */
+.scroll-line-anim {
+    background: linear-gradient(to bottom, rgba(201,168,76,0.4), transparent);
+    animation: scrollPulse 2.5s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+    0%, 100% { opacity: 0.2; transform: scaleY(0.7); transform-origin: top; }
+    50% { opacity: 0.6; transform: scaleY(1); transform-origin: top; }
+}
+
+/* ── Petals ── */
+.petal {
+    position: absolute;
+    top: -50px;
+    pointer-events: none;
+    animation: petalFall linear infinite;
+}
+@keyframes petalFall {
+    0% { transform: translateY(-5vh) rotate(0deg) translateX(0); opacity: 0; }
+    8% { opacity: 0.5; }
+    85% { opacity: 0.3; }
+    100% { transform: translateY(105vh) rotate(540deg) translateX(60px); opacity: 0; }
+}
+
+/* ── Gallery swipe (mobile) ── */
+.gallery-scroll {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.gallery-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .cd-sep { display: none; }
+}
