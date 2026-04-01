@@ -286,9 +286,13 @@
         </section>
 
         <!-- ── FAMILIES ── -->
-        <section id="families" class="relative py-28 md:py-36 bg-[#0d0a07] overflow-hidden">
+        <section id="families" class="relative py-28 md:py-36 overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="images/shubh.jpeg" alt="" class="w-full h-full object-cover opacity-15" onerror="this.style.display='none'">
+                <div class="absolute inset-0 bg-[#0d0a07]/85"></div>
+            </div>
             <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/10 to-transparent"></div>
-            <div class="max-w-5xl mx-auto px-6">
+            <div class="relative z-10 max-w-5xl mx-auto px-6">
                 <div class="text-center mb-20">
                     <p class="fam-reveal font-sans text-gold-500/50 text-xs md:text-sm tracking-[0.5em] uppercase mb-4 font-light">With Blessings From</p>
                     <h2 class="fam-reveal font-script text-cream-100 text-5xl md:text-7xl">Our Families</h2>
@@ -325,6 +329,7 @@
 
         <!-- ── EVENTS ── -->
         <section id="events" class="relative py-28 md:py-36 bg-[#0d0a07] overflow-hidden">
+            <div class="absolute inset-0 pointer-events-none overflow-hidden" id="celebrations"></div>
             <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/10 to-transparent"></div>
             <div class="max-w-4xl mx-auto px-6">
                 <div class="text-center mb-20">

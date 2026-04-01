@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             initAnimations();
             startPetals();
+            startCelebrations();
         }, 600);
     });
 
@@ -176,6 +177,109 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }, 3000);
+    }
+
+    // ─── CELEBRATIONS (Confetti + Fireworks) ───
+    function startCelebrations() {
+        const container = document.getElementById('celebrations');
+        if (!container) return;
+
+        const colors = ['#c9a84c', '#e8d48b', '#d4a853', '#f2dc9e', '#b03a55', '#d66580', '#fdf8f0', '#e8c56a'];
+        const shapes = ['circle', 'square', 'strip'];
+
+        // Confetti
+        function spawnConfetti() {
+            const el = document.createElement('div');
+            el.className = 'confetti';
+            const color = colors[Math.random() * colors.length | 0];
+            const shape = shapes[Math.random() * shapes.length | 0];
+            const size = Math.random() * 8 + 4;
+
+            el.style.left = Math.random() * 100 + '%';
+            el.style.top = Math.random() * 30 + '%';
+            el.style.backgroundColor = color;
+            el.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            el.style.animationDelay = Math.random() * 2 + 's';
+
+            if (shape === 'strip') {
+                el.style.width = size * 0.4 + 'px';
+                el.style.height = size * 1.5 + 'px';
+                el.style.borderRadius = '2px';
+            } else if (shape === 'circle') {
+                el.style.width = size + 'px';
+                el.style.height = size + 'px';
+                el.style.borderRadius = '50%';
+            } else {
+                el.style.width = size + 'px';
+                el.style.height = size + 'px';
+            }
+
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 8000);
+        }
+
+        // Firework bursts
+        function spawnFirework() {
+            const cx = Math.random() * 100;
+            const cy = Math.random() * 40 + 5;
+            const particleCount = Math.random() * 8 + 6 | 0;
+            const color = colors[Math.random() * colors.length | 0];
+
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'firework';
+                p.style.backgroundColor = color;
+                p.style.boxShadow = `0 0 6px ${color}`;
+                p.style.left = cx + '%';
+                p.style.top = cy + '%';
+                const angle = (360 / particleCount) * i;
+                const dist = Math.random() * 40 + 20;
+                const dx = Math.cos(angle * Math.PI / 180) * dist;
+                const dy = Math.sin(angle * Math.PI / 180) * dist;
+                p.style.animationDuration = (Math.random() * 1 + 1) + 's';
+                p.style.animationDelay = Math.random() * 0.3 + 's';
+                p.animate([
+                    { transform: 'scale(0)', opacity: 0 },
+                    { transform: 'scale(1.5)', opacity: 1, offset: 0.2 },
+                    { transform: `translate(${dx}px, ${dy}px) scale(0.5)`, opacity: 0 }
+                ], { duration: 1500 + Math.random() * 500, easing: 'ease-out', fill: 'forwards' });
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 2500);
+            }
+        }
+
+        // Ambient sparkles
+        function spawnSparkle() {
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top = Math.random() * 100 + '%';
+            s.style.backgroundColor = colors[Math.random() * colors.length | 0];
+            s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            s.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(s);
+            setTimeout(() => s.remove(), 8000);
+        }
+
+        // Start with ScrollTrigger
+        ScrollTrigger.create({
+            trigger: '#events',
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                // Initial burst
+                for (let i = 0; i < 20; i++) setTimeout(spawnConfetti, i * 100);
+                for (let i = 0; i < 15; i++) setTimeout(spawnSparkle, i * 150);
+                setTimeout(spawnFirework, 500);
+                setTimeout(spawnFirework, 1200);
+                setTimeout(spawnFirework, 2000);
+
+                // Continuous ambient
+                setInterval(spawnConfetti, 800);
+                setInterval(spawnSparkle, 1000);
+                setInterval(spawnFirework, 3500);
+            }
+        });
     }
 
     // ─── PETALS ───
