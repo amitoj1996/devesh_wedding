@@ -220,31 +220,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Firework bursts
         function spawnFirework() {
-            const cx = Math.random() * 100;
-            const cy = Math.random() * 40 + 5;
-            const particleCount = Math.random() * 8 + 6 | 0;
+            const rect = container.getBoundingClientRect();
+            const cx = Math.random() * rect.width;
+            const cy = Math.random() * rect.height * 0.5;
+            const particleCount = Math.random() * 10 + 10 | 0;
             const color = colors[Math.random() * colors.length | 0];
 
             for (let i = 0; i < particleCount; i++) {
                 const p = document.createElement('div');
-                p.className = 'firework';
+                p.className = 'firework-particle';
+                const size = Math.random() * 4 + 3;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
                 p.style.backgroundColor = color;
-                p.style.boxShadow = `0 0 6px ${color}`;
-                p.style.left = cx + '%';
-                p.style.top = cy + '%';
+                p.style.boxShadow = `0 0 ${size + 4}px ${color}, 0 0 ${size + 8}px ${color}`;
+                p.style.left = cx + 'px';
+                p.style.top = cy + 'px';
+                p.style.opacity = '1';
                 const angle = (360 / particleCount) * i;
-                const dist = Math.random() * 40 + 20;
+                const dist = Math.random() * 80 + 40;
                 const dx = Math.cos(angle * Math.PI / 180) * dist;
                 const dy = Math.sin(angle * Math.PI / 180) * dist;
-                p.style.animationDuration = (Math.random() * 1 + 1) + 's';
-                p.style.animationDelay = Math.random() * 0.3 + 's';
+                const dur = 1200 + Math.random() * 600;
                 p.animate([
-                    { transform: 'scale(0)', opacity: 0 },
-                    { transform: 'scale(1.5)', opacity: 1, offset: 0.2 },
-                    { transform: `translate(${dx}px, ${dy}px) scale(0.5)`, opacity: 0 }
-                ], { duration: 1500 + Math.random() * 500, easing: 'ease-out', fill: 'forwards' });
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${dx}px, ${dy}px) scale(0.2)`, opacity: 0 }
+                ], { duration: dur, easing: 'ease-out', fill: 'forwards' });
                 container.appendChild(p);
-                setTimeout(() => p.remove(), 2500);
+                setTimeout(() => p.remove(), dur + 100);
             }
         }
 
@@ -252,11 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
         function spawnSparkle() {
             const s = document.createElement('div');
             s.className = 'sparkle';
+            const size = Math.random() * 5 + 3;
+            s.style.width = size + 'px';
+            s.style.height = size + 'px';
             s.style.left = Math.random() * 100 + '%';
             s.style.top = Math.random() * 100 + '%';
-            s.style.backgroundColor = colors[Math.random() * colors.length | 0];
+            const color = colors[Math.random() * colors.length | 0];
+            s.style.backgroundColor = color;
+            s.style.boxShadow = `0 0 ${size + 2}px ${color}`;
             s.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            s.style.animationDelay = Math.random() * 2 + 's';
             container.appendChild(s);
             setTimeout(() => s.remove(), 8000);
         }
